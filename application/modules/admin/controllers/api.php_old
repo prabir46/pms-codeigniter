@@ -1,0 +1,348 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class api extends MX_Controller {
+
+    public function __construct() {
+        parent::__construct();
+        $this->load->model("consultant_model");
+        $this->load->model("calendar_model");
+        $this->load->model("dashboard_model");
+        $this->load->model("hospital_model");
+        $this->load->model("patient_model");
+        $this->load->model("medical_college_model");
+        $this->load->model("manufacturing_company_model");
+        $this->load->model("doctor_model");
+        $this->load->model("patient_model");
+        $this->load->model("prescription_model");
+        $this->load->model("setting_model");
+        $this->load->model("notification_model");
+        $this->load->model("contact_model");
+        $this->load->model("to_do_list_model");
+        $this->load->model("appointment_model");
+        $this->load->model("schedule_model");
+
+        $this->load->model("invoice_model");
+        $this->load->model("custom_field_model");
+    }
+
+    function invoice_pdf() {
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $id = $_POST['invoice_id'];
+            $data['details'] = $this->invoice_model->get_detail_new($id);
+            $data['setting'] = $this->setting_model->get_setting_api();
+            $data['page_title'] = lang('invoice');
+            $pdfFilePath = 'Invoice_' . $id . ".pdf";
+            $data['page_title'] = lang('invoice');
+            $data['id'] = $id;
+            $this->load->library('m_pdf');
+            $pdf = $this->m_pdf->load();
+            $pdf->autoLangToFont = true;
+
+            $html = $this->load->view('invoice/pdf', $data, true);
+            $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+            $pdf->WriteHTML($html);
+            $pdf->Output("./uploads/" . $pdfFilePath, "F");
+            echo json_encode(array('status' => 0, 'pdf' => $pdfFilePath, 'data' => $data['details']));
+        } else {
+            echo json_encode(array('status' => 1));
+        }
+    }
+
+    function invoice_pdf_all() {
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $id = $this->input->post('patient_id');
+
+            $data['fees_all'] = $this->patient_model->get_patients_by_invoice($id);
+            $data['setting'] = $this->setting_model->get_setting_api();
+            $data['page_title'] = lang('invoice');
+            $data['id'] = $id;
+            $pdfFilePath = 'Invoice_' . $id . ".pdf";
+            $this->load->library('m_pdf');
+            $pdf = $this->m_pdf->load();
+            $pdf->autoLangToFont = true;
+
+            $html = $this->load->view('invoice/pdf', $data, true);
+            $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+
+            $pdf->WriteHTML($html);
+            $pdf->Output("./uploads/" . $pdfFilePath, "F");
+            echo json_encode(array('status' => 0, 'pdf' => $pdfFilePath));
+        } else {
+            echo json_encode(array('status' => 1));
+        }
+    }
+
+    function pdf() {
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $id = $this->input->post('prescription_id');
+            $data['template'] = $this->notification_model->get_template_api($_POST);
+
+            $data['prescription'] = $this->prescription_model->get_prescription_by_id($id);
+            $data['setting'] = $this->setting_model->get_setting();
+            $data['fields'] = $this->custom_field_model->get_custom_fields(5);
+            if (empty($data['prescription']->prescription_id) || $data['prescription']->prescription_id == NULL || $data['prescription']->prescription_id == 'undefined') {
+                echo json_encode(array('status' => 1));
+                die();
+            } else {
+                $pdfFilePath = 'prescription_' . $data['prescription']->prescription_id . '.pdf';
+                $this->load->library('m_pdf');
+                $pdf = $this->m_pdf->load();
+                $pdf->autoLangToFont = true;
+                $html = $this->load->view('prescription/pdf', $data, true);
+                $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+                $pdf->WriteHTML($html);
+                $pdf->Output("./uploads/" . $pdfFilePath, "F");
+                echo json_encode(array('status' => 0, 'pdf' => $pdfFilePath));
+            }
+        } else {
+            echo json_encode(array('status' => 1));
+        }
+    }
+
+    function add_patient() {
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $doctor_id = $_POST['doctor_id'];
+            $username = $this->patient_model->get_username_by_doctor_id($doctor_id);
+            if (empty($username)) {
+                $save['username'] = $doctor_id . "Patient1";
+            } else {
+                $val = strlen($doctor_id) + 7;
+                $sub_str = substr($username->username, $val);
+                $save['username'] = $doctor_id . "Patient" . ($sub_str + 1);
+            }
+            $save['name'] = $_POST['name'];
+            $save['address'] = $_POST['address'];
+            $save['gender'] = $_POST['gender'];
+            $save['contact'] = $_POST['mobile'];
+            $save['doctor_id'] = $_POST['doctor_id'];
+            $save['add_date'] = date('Y-m-d H:i:s');
+            $save['user_role'] = 2;
+            $save['dob'] = date('Y') - $_POST['age'];
+            $this->patient_model->save($save);
+            echo 1;
+        } else {
+            echo 0;
+        }
+    }
+
+    function add_appointment() {
+        $slot = 1;
+        if ($_POST['slot'] == "15 minutes")
+            $slot = 15;
+        else if ($_POST['slot'] == "30 minutes")
+            $slot = 30;
+        else if ($_POST['slot'] == "1 hour")
+            $slot = 60;
+        else if ($_POST['slot'] == "1 hour 30 minutes")
+            $slot = 90;
+        else
+            $slot = 120;
+        $time1 = $_POST["stparttime"];
+        $end_time = explode(":", $time1);
+        $end_minute = $end_time[1] + ($slot % 60);
+        $end_hour = $end_time[0] + floor(($slot / 60));
+        $end_minute-=60;
+        $end_hour+=1;
+
+        $end_time = $end_hour . ":" . $end_minute;
+        $date = explode("/", $_POST["stpartdate"]);
+        $d = $date[0];
+        $m = $date[1] + 1;
+        $y = $date[2];
+        $date = $d . "/" . $m . "/" . $y;
+        $st = $date . " " . $_POST["stparttime"];
+        $et = $_POST['stpartdate'] . " " . $end_time;
+        $st = str_replace('/', '-', $st);
+        $et = str_replace('/', '-', $et);
+        $checked = $this->calendar_model->check_tables($st, $et);
+        if (!empty($checked)) {
+            $next = 0;
+            echo 0;
+           // break;
+        } else {
+            $next = 1;
+        }
+        $save['patient_id'] = $this->input->post('patient_id');
+        $save['consultant'] = $this->input->post('consultant_id');
+        $consultant = $this->consultant_model->get_consultant_by_id($save['consultant']);
+        $color = $consultant->Color;
+        $save['doctor_id'] = $consultant->doctor_id;
+        $save['motive'] = $this->input->post('motive');
+        $save['date'] = date("Y-m-d H:i:s", strtotime($st));
+        $save['end_date'] = date("Y-m-d H:i:s", strtotime($et));
+        $save['is_paid'] = 1;
+        $save['status'] = 1;
+        $save['whom'] = 1;
+        $save['contact_id'] = 0;
+        $save['other'] = 0;
+        $save['Color'] = $color;
+        $ptnt = $this->input->post('patient_id');
+        $data_patient = $this->patient_model->get_cont($ptnt);
+        $gender = '';
+        $patient_name = '';
+        foreach ($data_patient as $newx) {
+            $patient_name = $newx->name;
+        }
+        $ad = $save['doctor_id'];
+        $admin = '';
+        $admin_names = $this->patient_model->get_cont($ad);
+        foreach ($admin_names as $newadmin) {
+            $admin = $newadmin->name;
+        }
+        $cntc = $this->patient_model->get_cont($ptnt);
+        $contact = '';
+        foreach ($cntc as $newzz) {
+            $contact = $newzz->contact;
+        }
+        $save['title'] = $patient_name;
+
+        $dtate = date('d/m/Y h:i:s', strtotime($st));
+        $authKey = "144872ArhHeSNu58c7bb84";
+        $mobileNumber = $contact;
+        $senderId = "DOCTRI";
+        $mesg = "Dear " . $patient_name . " ,Your appointment is confirmed for " . $dtate . " at " . $admin . " Thanks";
+        $message = urlencode($mesg);
+        $route = 4;
+        $postData = array(
+            'authkey' => $authKey,
+            'mobiles' => $mobileNumber,
+            'message' => $message,
+            'sender' => $senderId,
+            'route' => $route
+        );
+        $url = "http://sms.globehost.com/api/sendhttp.php?";
+        $ch = curl_init();
+        curl_setopt_array($ch, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $postData
+            //,CURLOPT_FOLLOWLOCATION => true
+        ));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $output = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'error:' . curl_error($ch);
+        }
+        curl_close($ch);
+        $this->appointment_model->save($save);
+        echo 1;
+    }
+
+    function set_pimages() {
+
+
+
+        if (isset($_POST['base64'])) {
+            $admin = $_POST;
+
+            define('UPLOAD_DIR', 'uploads/wysiwyg/images/');
+            $image_parts = explode(";base64,", $_POST['base64']);
+            $image_type_aux = explode("image/", $image_parts[0]);
+            $image_type = $image_type_aux[1];
+            if ($image_type == 'jpeg') {
+                $ext = '.jpg';
+            } elseif ($image_type == 'png') {
+                $ext = '.png';
+            }
+
+            $image_base64 = base64_decode($image_parts[1]);
+            $file = UPLOAD_DIR . uniqid() . $ext;
+            $file_name = explode('/', $file)[3];
+            file_put_contents($file, $image_base64);
+
+
+            $this->load->library('image_lib');
+
+
+            //cropped thumbnail
+            $config['image_library'] = 'gd2';
+            $config['source_image'] = $file;
+            $config['new_image'] = 'uploads/wysiwyg/thumbnails/' . $file_name;
+            $config['maintain_ratio'] = FALSE;
+            $config['width'] = 268;
+            $config['height'] = 249;
+            $this->image_lib->initialize($config);
+            $this->image_lib->resize();
+            $this->image_lib->clear();
+
+            $data['file_name'] = $file_name;
+            if ($admin['user_role'] == 1) {
+                $doc = $admin['id'];
+            } else {
+                $doc = $admin['doctor_id'];
+            }
+            $save['file_name'] = $data['file_name'];
+            $save['title'] = $this->input->post('title');
+            $save['user_id'] = $this->input->post('patient_id');
+            $save['doctor_id'] = $doc;
+
+
+            $this->patient_model->save_image($save);
+            echo json_encode(array('status' => 0, 'result' => $file_name));
+        } else {
+            echo json_encode(array('status' => 1));
+        }
+    }
+
+    function appointmentbyid(){
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $id  = $_POST['id'];
+
+            if(!$id){
+
+               echo json_encode(array('status'=>'fail'));
+
+                exit;
+            }
+
+         //  $result = $this->appointment_model->get_appointment_by_doctor($id);
+        
+                                         $this->db->where('A.doctor_id',$id);
+					$this->db->order_by('A.date','DESC');
+					$this->db->select('A.id,A.title,A.date,A.end_date,A.motive,A.Color,U.name patient');
+					$this->db->join('users  U', 'U.id = A.patient_id', 'LEFT');
+					$this->db->join('users  U1', 'U1.id = A.doctor_id', 'LEFT');
+					//$this->db->join('contacts C', 'C.id = A.contact_id', 'LEFT');
+			$result=$this->db->get('appointments A')->result();
+            if($result){
+              echo json_encode(array('status' => 'success','appointments'=>$result));
+                exit;
+            }
+            else{
+
+                echo json_encode(array('status' =>"fail"));
+                exit;
+            }}
+        else
+        {
+            echo json_encode(array('status'=>1));
+        }
+    }
+
+    function delete_appointment()
+    {  if ($this->input->server('REQUEST_METHOD') === 'POST') {
+        $appointment_id=$_POST['appointment_id'];
+        if(!$appointment_id)
+        {
+            echo json_encode(array('status'=>400));
+        }
+        else
+        {
+            $this->appointment_model->delete($appointment_id);
+            echo "success";
+        }
+    }
+    else
+    {
+        echo json_encode(array('status'=>1));
+    }
+    }
+
+}
+
+?>

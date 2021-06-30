@@ -1,0 +1,714 @@
+.calmain {
+    background: #fff none repeat scroll 0 0;
+    border-bottom: 2px solid #c3d9ff;
+}
+.printborder {
+    border-left: 9px solid #fff;
+}
+.scolltimeevent {
+    border-bottom: 1px solid #fff;
+    border-left: 1px solid #a2bbdd;
+    border-top: 1px solid #a2bbdd;
+    font-size: 12px;
+    line-height: normal;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 0;
+    position: relative;
+    margin-top: -25px;
+}
+.wk-top {
+    background-color: #b4481d;
+    font-size: 12px;
+    line-height: 14px;
+    overflow: hidden;
+    table-layout: fixed;
+    width: 100%;
+}
+#gridcontainer {
+    -moz-user-select: none;
+    background: #fff none repeat scroll 0 0;
+    height: 300px;
+    position: relative;
+}
+.wk-dayname {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 4px;
+    padding: 8px 4px;
+    text-align: center;
+    white-space: nowrap;
+}
+.wk-today {
+    background-color: #8ac;
+    border-color: #6786a7 #ace #ace #6786a7;
+    border-style: solid;
+    border-width: 1px;
+    color: #fff;
+    font-weight: bold;
+    padding: 1px 3px;
+}
+.wk-dummyth {
+    background-color: #c3d9ff;
+    padding: 0;
+    vertical-align: top;
+}
+.wk-daylink {
+    cursor: pointer;
+}
+.wk-daylink:hover {
+    text-decoration: underline;
+}
+.wk-allday {
+    background-color: #e8eef7;
+    border-color: #a2bbdd #fff #fff #a2bbdd;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 12px;
+    line-height: 14px;
+}
+.wk-allday .st-c {
+    border-left: 3px double #ddd;
+    padding-left: 0;
+    padding-right: 0;
+}
+.st-grid {
+    position: relative;
+    table-layout: fixed;
+    width: 100%;
+}
+.st-c {
+    font-family: Verdana,sans-serif;
+    padding: 1px 1px 0 2px;
+    vertical-align: top;
+}
+.st-s {
+    cursor: default;
+    padding-bottom: 2px;
+}
+.t1 {
+    font-size: 1px;
+    height: 1px;
+    line-height: 1px;
+    margin: 0 2px;
+    overflow: hidden;
+}
+.t2 {
+    font-size: 1px;
+    height: 1px;
+    line-height: 1px;
+    margin: 0 1px;
+    overflow: hidden;
+}
+.chromeColor {
+    background: #c3d9ff none repeat scroll 0 0;
+    border-color: #c3d9ff;
+}
+.tg-timedevents {
+    background-color: #fff;
+    margin-top: -1px;
+    table-layout: fixed;
+    width: 100%;
+}
+.tg-times {
+    background-color: #fff;
+    color: #468;
+    font-family: Arial;
+    font-size: 11px;
+    overflow: hidden;
+    padding: 1px 1px 0 0;
+    text-align: right;
+    vertical-align: top;
+}
+.tg-time {
+    border-bottom: 1px solid #ddd;
+    color: #333;
+    font-size: 12px;
+    font-weight: 400;
+    padding-right: 3px;
+}
+.tg-col {
+    border-left: 1px double #b6b2b2;
+    /* overflow: hidden; */
+    vertical-align: top;
+}
+.tg-col-overlaywrapper {
+    height: 0;
+    position: relative;
+}
+.tg-col-eventwrapper {
+    cursor: default;
+    margin-right: 0px;
+    position: relative;
+}
+.tg-today {
+    background-color: #ccd4ff;
+}
+.tg-spanningwrapper {
+    height: 1px;
+    margin-left: 3px;
+    position: relative;
+    top: 1px;
+}
+.tg-hourmarkers {
+    position: absolute;
+    width: 100%;
+}
+.tg-dualmarker {
+    border-bottom: 1px dotted #b6b2b2;
+    border-top: 1px solid #b6b2b2;
+    height: 1em;
+    line-height: 1em;
+    margin-bottom: 1em;
+}
+.tg-nowmarker {
+    border-top: 2px solid red;
+    height: 0;
+    left: 0;
+    opacity: 0.4;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.tg-nowptr {
+    background-image: url("images/calendar/combined.gif");
+    background-position: -60px -68px;
+    height: 0px;
+    position: absolute;
+    width: 0px;
+}
+.chip {
+    -moz-user-select: none;
+    color: #fff;
+    cursor: default;
+    /* overflow: hidden; */
+    position: absolute;
+}
+.chip dl {
+    border-left: 1px solid;
+    border-right: 1px solid;
+    margin: 0;
+    overflow: hidden;
+    padding-bottom: 1px;
+}
+.chip dt {
+    font: bold 80% Verdana,sans-serif;
+    margin-top: -16px;
+    overflow: hidden;
+    padding-left: 1px;
+    text-align: left;
+    white-space: nowrap;
+}
+.chip a:link, .chip a:visited, .chip a:active {
+    color: #fff;
+    text-decoration: none;
+}
+.ie6 .chip dl {
+}
+.ie6 .chip dt {
+    margin-right: -1px;
+    width: 100%;
+}
+.chip dd {
+    font: 100%/1.3em Verdana,sans-serif;
+    margin: 0;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    padding: 0 1px;
+    text-align: left;
+}
+.cb1, .cb2 {
+    border-style: solid;
+    overflow: hidden;
+}
+.cb1 {
+    border-width: 0 1px;
+    height: 1px;
+    margin: 0 1px;
+}
+.cb2 {
+    border-width: 0 0 1px;
+    height: 0;
+    margin: 0 2px;
+}
+.ct {
+    border-color: transparent;
+    border-style: solid;
+    border-width: 0 0 2px;
+    height: 0;
+    overflow: hidden;
+}
+.ie6 .ct {
+    border-style: solid dotted;
+}
+.cic {
+    background-image: url("images/calendar/combined.gif");
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 7px;
+    line-height: 7px;
+    margin-left: 2px;
+    width: 9px;
+}
+.ff2 .cic {
+    display: -moz-inline-box;
+    position: relative;
+    top: -2px;
+    vertical-align: bottom;
+}
+.cic-ques {
+    background-position: -56px -50px;
+    height: 9px;
+    line-height: 9px;
+    margin-left: 0;
+    margin-right: 2px;
+    width: 9px;
+}
+.cic-prsn {
+    background-position: -28px -50px;
+}
+.cic-noprs {
+    background-position: -46px -50px;
+}
+.cic-tmr {
+    background-position: -28px -57px;
+}
+.cic-rcr {
+    background-position: -37px -50px;
+}
+.cic-spcl {
+    background-position: -37px -57px;
+}
+.cic-priv {
+    background-position: -11px -64px;
+}
+.resizer {
+    bottom: 0;
+    cursor: s-resize;
+    height: 7px;
+    line-height: 7px;
+    position: absolute;
+    width: 100%;
+}
+.rszr_icon {
+    border-top: 3px double white;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 10px;
+}
+.rb-n {
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 1px 1px 1px 3px;
+    white-space: nowrap;
+}
+.rb-o {
+    border-style: solid;
+    border-width: 1px 0;
+    cursor: pointer;
+    margin: 0 1px;
+}
+.rb-m {
+    border-style: solid;
+    border-width: 0 1px;
+    margin: 0 -1px;
+    padding-left: 3px;
+}
+.rb-i {
+    color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+.mv-container {
+    height: 100%;
+    line-height: 14px;
+    position: relative;
+    white-space: nowrap;
+}
+.mv-container th {
+    font-size: 12px;
+}
+.bg-exists .mv-container {
+    background-color: transparent;
+}
+.st-contents, .mv-container {
+    font-size: 11px;
+    line-height: 14px;
+}
+.mv-daynames-table {
+    background: #c3d9ff none repeat scroll 0 0;
+    color: #112abb;
+    left: 0;
+    position: absolute;
+    table-layout: fixed;
+    top: 0;
+    width: 100%;
+}
+.mv-dayname {
+    font-weight: normal;
+}
+.mv-event-container {
+    background: white none repeat scroll 0 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 14px;
+    width: 100%;
+}
+.month-row {
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+}
+.bg-exists .month-row {
+    opacity: 0.9;
+}
+.st-bg-table {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    table-layout: fixed;
+    top: 0;
+    width: 100%;
+}
+.st-bg {
+    border-left: 1px solid #c3d9ff;
+}
+.st-bg-today {
+    background-color: #ffc;
+}
+.bg-exists .st-bg-today {
+    background-color: #eee;
+    border: 1px solid #579;
+    opacity: 0.8;
+}
+.st-dtitle {
+    background-color: #e8eef7;
+    border-left: 1px solid #c3d9ff;
+    border-top: 1px solid #c3d9ff;
+    color: #444;
+    line-height: 16px;
+    overflow: hidden;
+    padding-right: 2px;
+    text-align: right;
+}
+.bg-exists .st-dtitle {
+    opacity: 0.8;
+}
+.st-dtitle-nonmonth {
+    background-color: #eee;
+    color: #777;
+}
+.st-dtitle-today {
+    background-color: #bcd;
+}
+.st-more {
+    color: #112abb;
+    cursor: pointer;
+    text-align: center;
+}
+.st-moreul {
+    text-decoration: underline;
+}
+.st-moreicon {
+    background-color: #d0d6de;
+    color: #627487;
+    font-size: 85%;
+    margin: 1px;
+    padding-right: 5px;
+    text-align: right;
+}
+.cc {
+    background-color: white;
+    border: 1px solid gray;
+    position: absolute;
+    visibility: hidden;
+}
+.cc-titlebar {
+    background-color: #e8eef7;
+}
+.cc-close {
+    background: rgba(0, 0, 0, 0) url("images/calendar/combined.gif") repeat scroll 0 -50px;
+    cursor: pointer;
+    height: 15px;
+    margin: 2px 2px 0 0;
+    position: absolute;
+    right: 0;
+    width: 15px;
+}
+.cc-title {
+    font-weight: bold;
+    padding: 2px;
+}
+.st-ad-ml, .st-ad-mr {
+    border-bottom: 4px solid transparent;
+    border-top: 4px solid transparent;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    margin-bottom: -8px;
+    position: relative;
+    top: 2px;
+    width: 0;
+}
+.st-ad-mpad {
+    padding-left: 10px;
+}
+.st-ad-ml {
+    border-right: 4px solid white;
+    margin-left: -7px;
+    margin-right: auto;
+}
+.st-ad-mr {
+    border-left: 4px solid white;
+    margin-left: auto;
+    margin-right: 3px;
+}
+.bubble {
+    font-size: 9pt;
+    left: 0;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+}
+.bubble-table {
+    table-layout: fixed;
+    width: 100%;
+}
+.bubble-cell-side {
+    width: 25px;
+}
+.bubble-cell-main {
+    width: 100%;
+}
+.bubble-sprite {
+    background-image: url("images/calendar/bubble_combined.png");
+    height: 96px;
+    position: absolute;
+    width: 148px;
+}
+.ie6 .bubble-sprite {
+    background: transparent none repeat scroll 0 0;
+}
+.bubble-corner {
+    height: 25px;
+    overflow: hidden;
+    position: relative;
+    width: 25px;
+}
+.bubble-tl {
+    left: 0;
+}
+.bubble-tr {
+    left: -25px;
+}
+.bubble-bl {
+    left: 0;
+    top: -25px;
+}
+.bubble-br {
+    left: -25px;
+    top: -25px;
+}
+.bubble-closebutton {
+    background: rgba(0, 0, 0, 0) url("images/calendar/combined.gif") repeat scroll 0 -50px;
+    cursor: pointer;
+    height: 15px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 15px;
+}
+.bubble-top {
+    background: #fff none repeat scroll 0 0;
+    height: 24px;
+}
+.bubble-bottom {
+    background: #fff none repeat scroll 0 0;
+    height: 24px;
+}
+.bubble-top {
+    border-top: 1px solid #ababab;
+}
+.bubble-bottom {
+    border-bottom: 1px solid #ababab;
+}
+.bubble-mid {
+    background: #fff none repeat scroll 0 0;
+    border-left: 1px solid #ababab;
+    border-right: 1px solid #ababab;
+    padding: 0 20px;
+}
+.cb-root {
+    font-size: 13px;
+    overflow: hidden;
+    width: 100%;
+}
+.cb-switcher {
+    margin-bottom: 0.8em;
+}
+.cb-switcher-selected {
+    font-weight: bold;
+}
+.cb-table {
+    margin-bottom: 0.8em;
+    width: 100%;
+}
+.cb-example {
+    font-size: 12px;
+    font-style: italic;
+    padding-top: 2px;
+}
+.cb-key {
+    font-weight: normal;
+    padding: 0.4em 1em 0.4em 0;
+    text-align: left;
+    vertical-align: top;
+    white-space: nowrap;
+}
+.cb-value {
+    padding: 0.4em 0;
+    width: 95%;
+}
+.cb-textarea {
+    height: 3.9em;
+}
+.textbox-fill-input {
+    border-color: #666 #ccc #ccc #666;
+    border-width: 1px;
+    padding: 2px;
+    width: 95%;
+}
+.lk {
+    color: #ffff;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.cal-control {
+}
+.control-main {
+    border-color: #c3d9ff;
+    vertical-align: bottom;
+    width: 100%;
+}
+.view-tab {
+    cursor: pointer;
+    padding: 0 2px;
+    vertical-align: bottom;
+}
+.view-tab-unselected {
+    background-color: #e8eef7;
+}
+.view-tab-selected {
+    background-color: #c3d9ff;
+}
+.tab-name {
+    padding: 4px 6px 3px;
+    white-space: nowrap;
+}
+.tab-spacer {
+    cursor: default;
+    width: 3px;
+}
+.bbit-cs-split {
+    border-top: 1px solid #124884;
+    margin-top: 2px;
+    padding: 2px;
+    background-color: #124884;
+}
+.textbox-fill-div {
+    font-size: 14px;
+    padding: 2px;
+    width: 95%;
+}
+.drag-lasso-container {
+    height: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 0;
+}
+.drag-lasso {
+    background-color: #c3d9ff;
+    font-size: 0;
+    line-height: 0;
+    opacity: 0.5;
+    position: absolute;
+}
+.drag-event {
+    cursor: pointer;
+    font-family: Verdana,sans-serif;
+    position: absolute;
+    z-index: 1000;
+}
+.drag-chip-wrapper {
+    left: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+.drag-chip {
+    cursor: pointer;
+    opacity: 0.8;
+}
+.prong {
+    height: 72px;
+    left: 101px;
+    margin-bottom: -72px;
+    overflow: hidden;
+    position: relative;
+    top: -1px;
+    width: 98px;
+}
+.prong .bubble-sprite {
+    left: -50px;
+    top: -24px;
+}
+.monthdayshow {
+    cursor: pointer;
+}
+.monthdayshow:hover {
+    text-decoration: underline;
+}
+div#bbit-cs-buddle {
+    text-align: center; 
+}
+.chip{
+    width: 50% !important;
+}
+[title]{
+	/*position:relative;*/
+}
+.chip[data]:after{
+	content:attr(data);
+	color:#fff;
+	background: #333 !important;
+	background:rgba(51,51,51,0.75);
+	padding: 5px;
+	position:absolute;
+	left:-9999px;
+	opacity:0;
+	bottom:100%;
+	/* white-space:nowrap; */
+	-webkit-transition:0.25s linear opacity;
+	width: 186px;
+	top: 0px;
+	height: 80px;
+	right: 0;
+}
+.chip[data]:hover:after{
+	left: 40px;
+	opacity:1;
+z-index: 9;
+}
